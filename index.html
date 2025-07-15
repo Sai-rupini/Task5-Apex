@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whispering Words</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-inter bg-gray-100 text-gray-800 antialiased">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col space-y-2">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+
+        <!-- Homepage Section (Visible when not logged in) -->
+        <section id="homepage" class="flex-grow flex flex-col items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl p-8 md:p-12 max-w-4xl w-full text-center transform transition-all duration-500 ease-in-out scale-100 hover:scale-105">
+                <h1 class="text-5xl md:text-6xl font-extrabold text-indigo-700 mb-6 leading-tight">
+                    💬Whispering Words
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-10">
+                    Discover captivating stories, share your thoughts, and connect with a vibrant community.
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <button id="show-login-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    </button>
+                    <button id="show-register-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-emerald-300">
+                        <i class="fas fa-user-plus mr-2"></i> Register
+                    </button>
+                </div>
+
+                <!-- Login Form (Initially Hidden) -->
+                <div id="login-form-container" class="mt-12 p-8 bg-indigo-50 rounded-lg shadow-inner hidden">
+                    <h2 class="text-3xl font-bold text-indigo-800 mb-6">Login to Your Account</h2>
+                    <form id="login-form" class="space-y-6">
+                        <div>
+                            <label for="login-username" class="sr-only">Username</label>
+                            <input type="text" id="login-username" placeholder="Username" required
+                                class="w-full p-4 border border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200">
+                        </div>
+                        <div>
+                            <label for="login-password" class="sr-only">Password</label>
+                            <input type="password" id="login-password" placeholder="Password" required
+                                class="w-full p-4 border border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                            Login
+                        </button>
+                        <button type="button" id="cancel-login-btn" class="w-full mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                            Cancel
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Register Form (Initially Hidden) -->
+                <div id="register-form-container" class="mt-12 p-8 bg-emerald-50 rounded-lg shadow-inner hidden">
+                    <h2 class="text-3xl font-bold text-emerald-800 mb-6">Create a New Account</h2>
+                    <form id="register-form" class="space-y-6">
+                        <div>
+                            <label for="register-username" class="sr-only">Username</label>
+                            <input type="text" id="register-username" placeholder="Username" required
+                                class="w-full p-4 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
+                        </div>
+                        <div>
+                            <label for="register-password" class="sr-only">Password</label>
+                            <input type="password" id="register-password" placeholder="Password" required
+                                class="w-full p-4 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                            Register
+                        </button>
+                        <button type="button" id="cancel-register-btn" class="w-full mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                            Cancel
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section (Visible after login) -->
+        <section id="dashboard" class="hidden flex-grow flex flex-col md:flex-row">
+            <!-- Dashboard Sidebar -->
+            <aside class="w-full md:w-64 bg-gray-800 text-white p-6 flex flex-col shadow-lg">
+                <div class="mb-8 text-center">
+                    <h2 class="text-3xl font-extrabold text-indigo-400">Blog Admin</h2>
+                    <p class="text-gray-400 text-sm mt-1" id="logged-in-user-display"></p>
+                </div>
+                <nav class="flex-grow">
+                    <ul class="space-y-4">
+                        <li>
+                            <button id="nav-browse-posts" class="w-full text-left flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-lg font-medium active-nav-link">
+                                <i class="fas fa-newspaper mr-3 text-indigo-300"></i> Browse Posts
+                            </button>
+                        </li>
+                        <li>
+                            <button id="nav-create-post" class="w-full text-left flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-lg font-medium">
+                                <i class="fas fa-plus-circle mr-3 text-emerald-300"></i> Create Post
+                            </button>
+                        </li>
+                        <li>
+                            <button id="nav-profile" class="w-full text-left flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-lg font-medium">
+                                <i class="fas fa-user-circle mr-3 text-yellow-300"></i> Manage Profile
+                            </button>
+                        </li>
+                        <li>
+                            <button id="nav-notifications" class="w-full text-left flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-lg font-medium relative">
+                                <i class="fas fa-bell mr-3 text-red-300"></i> Notifications
+                                <span id="notification-count" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="mt-8">
+                    <button id="logout-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content Area -->
+            <main class="flex-grow p-6 bg-gray-50 overflow-y-auto">
+                <!-- Browse Posts Section -->
+                <section id="browse-posts-section" class="dashboard-section">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 border-b-4 border-indigo-500 pb-2">Browse All Posts</h2>
+                    <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Posts will be dynamically loaded here -->
+                    </div>
+                </section>
+
+                <!-- Create Post Section -->
+                <section id="create-post-section" class="dashboard-section hidden">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 border-b-4 border-emerald-500 pb-2">Create New Post</h2>
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <form id="create-post-form" class="space-y-6">
+                            <div>
+                                <label for="post-title" class="block text-lg font-medium text-gray-700 mb-2">Post Title</label>
+                                <input type="text" id="post-title" placeholder="Enter post title" required
+                                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <div>
+                                <label for="post-content" class="block text-lg font-medium text-gray-700 mb-2">Post Content</label>
+                                <textarea id="post-content" placeholder="Write your amazing post here..." rows="10" required
+                                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 resize-y"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                                Publish Post
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Manage Profile Section -->
+                <section id="profile-section" class="dashboard-section hidden">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 border-b-4 border-yellow-500 pb-2">Manage Your Profile</h2>
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <form id="update-profile-form" class="space-y-6">
+                            <div>
+                                <label for="current-password" class="block text-lg font-medium text-gray-700 mb-2">Current Password</label>
+                                <input type="password" id="current-password" placeholder="Enter current password" required
+                                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <div>
+                                <label for="new-password" class="block text-lg font-medium text-gray-700 mb-2">New Password</label>
+                                <input type="password" id="new-password" placeholder="Enter new password" required
+                                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <div>
+                                <label for="confirm-new-password" class="block text-lg font-medium text-gray-700 mb-2">Confirm New Password</label>
+                                <input type="password" id="confirm-new-password" placeholder="Confirm new password" required
+                                    class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 rounded-lg shadow-md transform transition-all duration-200 hover:scale-105">
+                                Update Password
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Notifications Section -->
+                <section id="notifications-section" class="dashboard-section hidden">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 border-b-4 border-red-500 pb-2">Your Notifications</h2>
+                    <div id="notifications-list" class="bg-white p-8 rounded-xl shadow-lg space-y-4">
+                        <!-- Notifications will be dynamically loaded here -->
+                        <p class="text-gray-600 text-center" id="no-notifications-message">No new notifications.</p>
+                    </div>
+                </section>
+            </main>
+        </section>
+    </div>
+
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>

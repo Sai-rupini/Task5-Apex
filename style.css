@@ -1,0 +1,76 @@
+/* style.css */
+
+/* Custom font-family for Inter */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Ensure the app container takes full height */
+#app {
+    min-height: 100vh;
+}
+
+/* Styling for the active navigation link in the dashboard sidebar */
+.active-nav-link {
+    background-color: #4a5568; /* A darker gray for active state */
+    color: #ffffff; /* White text for active state */
+}
+
+/* Basic styling for scrollbar for a cleaner look */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* General styling for dashboard sections to ensure smooth transitions */
+.dashboard-section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Specific styling for post cards */
+.post-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Styling for the toast notifications */
+.toast {
+    animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 2.5s; /* Slide in, then fade out after 2.5s delay */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
