@@ -1,4 +1,4 @@
-# 🌟 My Awesome Blog
+# 💬Whispering Words
 
 A **comprehensive, responsive, and performant** blogging platform web application. This project demonstrates full integration of **HTML**, **CSS**, and **JavaScript**, with features like simulated user authentication, dynamic post interactions, and a clean user dashboard experience.
 
